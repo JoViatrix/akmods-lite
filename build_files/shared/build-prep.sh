@@ -20,7 +20,11 @@ else
     echo "Building for Fedora"
     RELEASE="$(rpm -E '%fedora')"
 
-    sed -i 's@enabled=1@enabled=0@g' /etc/yum.repos.d/fedora-cisco-openh264.repo
+    for repo in /etc/yum.repos.d/*openh264*.repo; do
+        if [[ -f "$repo" ]]; then
+            sed -i 's@enabled=1@enabled=0@g' "$repo"
+        fi
+    done
 
     RPMFUSION_MIRROR_RPMS="https://mirrors.rpmfusion.org"
     if [ -n "${RPMFUSION_MIRROR}" ]; then
@@ -31,8 +35,8 @@ else
         "${RPMFUSION_MIRROR_RPMS}"/nonfree/fedora/rpmfusion-nonfree-release-"${RELEASE}".noarch.rpm \
         fedora-repos-archive
 
-    # after F43 launches, bump to 44
-    if [[ "${FEDORA_MAJOR_VERSION}" -ge 43 ]]; then
+    # after F45 launches, bump to 46
+    if [[ "${FEDORA_MAJOR_VERSION}" -ge 46 ]]; then
         # pre-release rpmfusion is in a different location
         sed -i "s%free/fedora/releases%free/fedora/development%" /etc/yum.repos.d/rpmfusion-*.repo
         # pre-release rpmfusion needs to enable testing
