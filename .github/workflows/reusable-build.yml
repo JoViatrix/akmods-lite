@@ -155,8 +155,8 @@ jobs:
         cfile_suffix:
           - common
           - extra
-          - nvidia
-          - nvidia-open
+          # - nvidia
+          # - nvidia-open
           # - zfs
         exclude:
           #- kernel_flavor: main
